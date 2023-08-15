@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 const useTitle = (title) => {
     useEffect( () => {
-        document.title = `${title} - Job Portal`;
+        document.title = `${title} - Job Nexus`;
     }, [title])
 }
 export default useTitle;

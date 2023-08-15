@@ -93,7 +93,7 @@ const Login = () => {
         <div className='overflow-x-hidden'>
 
             <div className=' mt-28 flex justify-center items-center  '>
-                <div className='bg-white  md:p-3 sm:p-2 p-1 border-2 rounded-md  sm:w-[470px] w-[470px] shadow-2xl lg:w-[600px] md:w-[540px]  mx-4 sm:mx-2 md:mx-2 lg:mx-0'>
+                <div className='bg-white  md:p-3 sm:p-2 p-1 border-2 border-gray-400 rounded-md  sm:w-[470px] w-[470px] shadow-2xl lg:w-[600px] md:w-[540px]  mx-4 sm:mx-2 md:mx-2 lg:mx-0'>
                     <h2 className=' mb-4 text-[20px] text-blue-800 text-center font-bold uppercase'>Login</h2>
 
                     <form onSubmit={handleSubmit(handleLogin)}>
@@ -174,7 +174,7 @@ const Login = () => {
 
 
                     <div className='mt-3 mb-4'>
-                        <p className='text-sm text-center font-semibold'>New to Job Portal ? <Link to='/signup' className='text-blue-600 font-semibold'>Please Sign Up</Link></p>
+                        <p className='text-sm text-center font-semibold'>New to Job Nexus ? <Link to='/signup' className='text-blue-600 font-semibold'>Please Sign Up</Link></p>
                     </div>
 
 

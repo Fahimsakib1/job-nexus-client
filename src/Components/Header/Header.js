@@ -7,11 +7,8 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+
 import Logo from '../../Images/Logo/Logo.png'
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/AuthProvider/AuthProvider';
@@ -49,7 +46,6 @@ const Header = () => {
 
 
     const { user, signOutUser } = useContext(AuthContext);
-    console.log("User in Header: ", user);
 
 
 
@@ -126,11 +122,23 @@ const Header = () => {
                                 }}
                             >
                                 <div className='mb-2'>
+
+
+                                    <Link to='/'>
+                                        <h1 className='mb-2 text-[15px] sm:text-[17px] md:text-lg sm:px-6 px-6 md:px-10 py-1'>Home</h1>
+                                    </Link>
+
                                     <Link to='/addJob'>
                                         <h1 className='mb-2 text-[15px] sm:text-[17px] md:text-lg sm:px-6 px-6 md:px-10 py-1'>Add Job</h1>
                                     </Link>
-                                    <Link to='/viewJobs'>
-                                        <h1 className='mb-3 text-[15px] sm:text-[17px] md:text-lg sm:px-6 px-6 md:px-10 py-1'>View Jobs</h1>
+
+
+                                    <Link to={`/myJobs/${user?.email}`}>
+                                        <h1 className='mb-3 text-[15px] sm:text-[17px] md:text-lg sm:px-6 px-6 md:px-10 py-1'>My Jobs</h1>
+                                    </Link>
+
+                                    <Link to='/viewAllJobs'>
+                                        <h1 className='mb-3 text-[15px] sm:text-[17px] md:text-lg sm:px-6 px-6 md:px-10 py-1'>View All Jobs</h1>
                                     </Link>
 
                                     {
@@ -174,16 +182,25 @@ const Header = () => {
                                 {/* <NavLink to='/addJob'>
                                     <h1 className='hover:bg-rose-600  px-4 py-1 hover:text-white rounded-sm text-[19px] cursor-pointer'>Add Job</h1>
                                 </NavLink>
+
                                 <NavLink to='/viewJobs'>
                                     <h1 className='hover:bg-rose-600 px-4 py-1 hover:text-white rounded-sm  text-[19px] cursor-pointer'>View Jobs</h1>
                                 </NavLink> */}
 
+                                <NavLink to='/'>
+                                    <h1 className='  hover:text-sky-400 px-2 text-[19px] cursor-pointer'>Home</h1>
+                                </NavLink>
 
                                 <NavLink to='/addJob'>
-                                    <h1 className=' px-2 text-[19px] cursor-pointer'>Add Job</h1>
+                                    <h1 className='  hover:text-sky-400 px-2 text-[19px] cursor-pointer'>Add Job</h1>
                                 </NavLink>
-                                <NavLink to='/viewJobs'>
-                                    <h1 className='px-2 text-[19px] cursor-pointer'>View Jobs</h1>
+
+                                <NavLink to={`/myJobs/${user?.email}`}>
+                                    <h1 className=' hover:text-sky-400 px-2 text-[19px] cursor-pointer'>My Jobs</h1>
+                                </NavLink>
+
+                                <NavLink to='/viewAllJobs'>
+                                    <h1 className=' hover:text-sky-400 px-2 text-[19px] cursor-pointer'>View All Jobs</h1>
                                 </NavLink>
 
 
@@ -246,8 +263,9 @@ const Header = () => {
                                     }
 
 
-                                    <h1 className='py-1 px-12  hover:bg-gray-300 w-full mt-2 text-[17px] cursor-pointer text-center'>Profile</h1>
-                                    <h1 className='py-1 px-12  hover:bg-gray-300 w-full mt-2 text-[17px] cursor-pointer text-center'>Account</h1>
+                                    <Link to='/'>
+                                        <h1 className='py-1 px-12  hover:bg-gray-300 w-full mt-2 text-[17px] cursor-pointer text-center'>Home</h1>
+                                    </Link>
 
                                     {
                                         user?.uid ?

@@ -120,7 +120,7 @@ const Signup = () => {
                 toast.success("Successfully Sign In By Google");
                 addUserToDataBase(user.displayName, user.email, user?.photoURL);
                 setGoogleSignUpLoader(false);
-                navigate('/login')
+                navigate('/')
             })
 
             .catch(error => {
@@ -187,18 +187,20 @@ const Signup = () => {
         <div className='overflow-x-hidden'>
 
             <div className=' mt-10 flex justify-center items-center  '>
-                <div className='bg-white  md:p-3 sm:p-2 p-1 border-2 rounded-md  sm:w-[470px] w-[470px] shadow-2xl lg:w-[600px] md:w-[540px]  mx-4 sm:mx-2 md:mx-2 lg:mx-0'>
+                <div className='bg-white  border-2 border-gray-400 md:p-3 sm:p-2 p-1  rounded-md  sm:w-[470px] w-[470px] shadow-2xl lg:w-[600px] md:w-[540px]  mx-4 sm:mx-2 md:mx-2 lg:mx-0'>
                     <h2 className='text-[20px] text-blue-800 text-center font-bold uppercase'>Sign up</h2>
 
                     <form onSubmit={handleSubmit(handleSignup)}>
 
-                        <div className=''>
-                            <TextField sx={{
+                        <div>
+                            <TextField 
+                            sx={{
                                 mt: 2,
                                 mb: 3,
                                 width: { xs: 300, sm: 420, md: 500, lg: 540 },
-                            }} size="small" id="outlined-basic" label="Full Name" placeholder='Enter Your Full Name' variant="outlined" {...register("name", { required: "Name is Required" })} />
-                            {errors.name && <p className='-mt-4 px-4 text-start text-red-600'>{errors.name?.message}</p>}
+                            }}
+                            size="small" id="outlined-basic" label="Full Name" placeholder='Enter Your Full Name' variant="outlined" {...register("name", { required: "Name is Required" })} />
+                            {errors.name && <p className=' -mt-4 px-4 text-start text-red-600'>{errors.name?.message}</p>}
                         </div>
 
                         <div className=''>
@@ -275,8 +277,7 @@ const Signup = () => {
                             width: { xs: 300, sm: 420, md: 500, lg: 540 },
                         }} className='-mt-2  md:px-1 px-1 form-control w-full mb-1 mx-auto'>
                             <h1 className=" text-left font-semibold">Upload Photo</h1>
-                            <input type="file"
-                                placeholder="Upload Product Photo" className="input  w-full pt-2 text-black"  {...register("photo", { required: "Please Upload Your Image" })} />
+                            <input type="file" className="input  w-full pt-2 text-black"  {...register("photo", { required: "Please Upload Your Image" })} />
 
                             {
                                 errors.photo && <p className='text-start text-red-600'>{errors.photo.message}</p>
