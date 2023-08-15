@@ -5,7 +5,7 @@ import ViewMyJobsCard from './ViewMyJobsCard';
 import { AuthContext } from '../../../Contexts/AuthProvider/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-
+import Spinner3 from '../../LoadingSpinners/Spinner3';
 
 
 
@@ -21,7 +21,29 @@ const MyPostedJobs = () => {
 
     const { user } = useContext(AuthContext)
     const jobs = useLoaderData();
-    useTitle('My Jobs');
+    useTitle('My Posted Jobs');
+
+
+
+    //get the appointment data based on user email
+    const { data: myPostedJobs = [], refetch, isLoading } = useQuery({
+        queryKey: ['myPostedJobs', user?.email],
+        queryFn: async () => {
+            const res = await fetch(`http://localhost:5000/jobsByEmail/${user?.email}`);
+            const data = await res.json();
+            return data;
+        }
+    })
+
+    refetch();
+
+    console.log("My Jobs: ", myPostedJobs);
+    console.log("My Jobs Length: ", myPostedJobs.length);
+    console.log("Type of : ", typeof myPostedJobs);
+
+
+
+
 
 
     // let jobContent
@@ -36,19 +58,20 @@ const MyPostedJobs = () => {
 
 
 
+    if(isLoading){
+        <Spinner3></Spinner3>
+    }
 
 
 
 
-    //get the appointment data based on user email
-    const { data: myPostedJobs = [], refetch, isLoading } = useQuery({
-        queryKey: ['myPostedJobs', user?.email],
-        queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/jobsByEmail/${user?.email}`);
-            const data = await res.json();
-            return data;
-        }
-    })
+
+
+
+
+
+
+
 
 
 
@@ -61,12 +84,15 @@ const MyPostedJobs = () => {
 
         fetch(`http://localhost:5000/job/${id}`, {
             method: 'DELETE',
+            headers: {
+                authorization: `bearer ${localStorage.getItem('JobNexusToken')}`
+            }
         })
             .then(res => res.json())
             .then(data => {
                 if (data.deletedCount > 0) {
                     toast.success('Job Deleted', {
-                        position: "bottom-center",
+                        position: "top-center",
                         autoClose: 1000,
                         theme: "colored",
                     });
@@ -74,7 +100,7 @@ const MyPostedJobs = () => {
                 }
                 else {
                     toast.error(`Something Went Wrong!! Can Not Delete Job... `, {
-                        position: "bottom-right",
+                        position: "top-center",
                         autoClose: 1500,
                         theme: "colored",
                     });
@@ -82,16 +108,13 @@ const MyPostedJobs = () => {
             })
             .catch(error => {
                 toast.error(`${error}`, {
-                    position: "bottom-right",
+                    position: "top-center",
                     autoClose: 1500,
                     theme: "colored",
                 });
             })
 
     }
-
-
-
 
 
 
@@ -108,21 +131,22 @@ const MyPostedJobs = () => {
 
 
 
+
     return (
         <div>
             {
-                jobs?.length > 0 ?
-                    <div className='mb-10 lg:px-24 md:px-12 px-4 mt-10 grid lg:grid-cols-2 md:grid-cols-1 grid-cols-1 lg:space-x-8 md:space-x-0 space-x-0 gap-y-8'>
+                myPostedJobs?.length > 0 ?
+                    <div className='mb-10 lg:px-24 md:px-12 px-4 mt-10 grid lg:grid-cols-2 md:grid-cols-1 grid-cols-1 lg:gap-x-8 md:space-x-0 space-x-0 gap-y-8'>
                         {
                             jobContent
                         }
                     </div>
                     :
                     <>
-                        <h1 className='text-3xl text-gray-700 font-bold text-center mt-48 mb-2'>{user && user?.displayName} You Have Not Post Any Job Yet</h1>
+                        <h1 className='text-3xl text-green-700 font-bold text-center mt-48 mb-2'>{user && user?.displayName},<span className='text-3xl text-gray-700'>You Have Not Posted Any Job Yet</span></h1>
                         <h1 className='text-xl'>Click
                             <Link to='/addJob'>
-                                <span className='px-2 cursor-pointer text-center text-xl text-blue-800 font-bold'>Here</span>
+                                <span className='px-2 cursor-pointer text-center text-2xl text-blue-800 font-bold'>Here</span>
                             </Link>
                             To Post Job
                         </h1>

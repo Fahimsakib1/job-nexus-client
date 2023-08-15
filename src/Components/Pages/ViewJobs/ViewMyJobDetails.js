@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
@@ -20,14 +20,59 @@ const ViewMyJobDetails = () => {
     const job = useLoaderData();
     const navigate = useNavigate();
 
-    const { _id, jobTitle, userName, userEmail, location, education, companyName, salary, jobResponsibilities, jobPostedTime, jobContext, additionalRequirements, vacancy, userPhoto, jobType, experience } = job
+    const { _id, jobTitle, userName, userEmail, location, education, companyName, salary, jobResponsibilities, jobPostedTime, jobContext, jobRequirements, vacancy, userPhoto, jobType, experience } = job
 
-    const AllResponsibility = jobResponsibilities.split('.')
+
+
+
+
+    // const [jobResponsibility, setJobResponsibility] = useState('')
+    // const myString = jobResponsibilities;
+    // if (typeof myString === 'string' && typeof myString !== 'undefined') {
+    //     const AllResponsibility = myString?.split('.')
+    //     const responsibility = AllResponsibility.slice(0, AllResponsibility.length - 1);
+    //     console.log("Responsibility: ", responsibility);
+    //     console.log("Tye of Responsibility: ", typeof responsibility);
+    //     setJobResponsibility(responsibility)
+    // } else {
+    //     console.log("myString is not a valid string");
+    // }
+
+
+
+    // const [requirements, setRequirements] = useState('')
+    // const myString1 = jobRequirements;
+    // if (typeof myString1 === 'string' && typeof myString1 !== 'undefined') {
+    //     const newString = myString1.split('.')
+    //     const Addition = newString.slice(0, newString.length - 1);
+    //     console.log("Requirements", Addition);
+    //     console.log("Type of Requirements", typeof Addition);
+    //     setRequirements(Addition);
+    // } else {
+    //     console.log("myString is not a valid string");
+    // }
+
+
+
+
+
+
+
+    const AllResponsibility = jobResponsibilities && jobResponsibilities?.split('.')
     const responsibility = AllResponsibility.slice(0, AllResponsibility.length - 1)
 
 
-    const Additional = additionalRequirements.split('.')
-    const Addition = Additional.slice(0, Additional.length - 1)
+    const Additional = jobRequirements.split('.')
+    const Addition = Additional.slice(0, Additional.length - 1);
+
+
+
+
+
+
+
+
+
 
 
     let content;
@@ -74,20 +119,23 @@ const ViewMyJobDetails = () => {
 
         fetch(`http://localhost:5000/job/${id}`, {
             method: 'DELETE',
+            headers: {
+                authorization: `bearer ${localStorage.getItem('JobNexusToken')}`
+            }
         })
             .then(res => res.json())
             .then(data => {
                 if (data.deletedCount > 0) {
                     toast.success('Job Deleted', {
-                        position: "bottom-center",
+                        position: "top-center",
                         autoClose: 1000,
                         theme: "colored",
                     });
-                    navigate(`/myJobs/${userEmail}`)
+                    navigate('/myJobs')
                 }
                 else {
                     toast.error(`Something Went Wrong!! Can Not Delete Job... `, {
-                        position: "bottom-right",
+                        position: "top-center",
                         autoClose: 1500,
                         theme: "colored",
                     });
@@ -95,7 +143,7 @@ const ViewMyJobDetails = () => {
             })
             .catch(error => {
                 toast.error(`${error}`, {
-                    position: "bottom-right",
+                    position: "top-center",
                     autoClose: 1500,
                     theme: "colored",
                 });
@@ -117,7 +165,12 @@ const ViewMyJobDetails = () => {
 
                 <div className='flex md:flex-row flex-col justify-between '>
                     <h1 className=' text-green-600 text-lg font-bold text-start'>Company: {companyName}</h1>
-                    <p className=' -mt-[2px] text-sm font-semibold text-gray-600 text-start'>Posted Date: {jobPostedTime}</p>
+                    <div>
+                        <p className=' -mt-[2px] text-sm font-semibold text-gray-600 text-start'>Posted Date: {jobPostedTime}</p>
+                        {
+                            job.jobEditedTime &&  <p className='  text-[13px] font-bold text-red-600 md:text-end text-start'>Edited On: {job.jobEditedTime}</p>
+                        }
+                    </div>
                 </div>
 
                 <div className='flex justify-between  md:flex-row flex-col md:gap-x-2 md:gap-y-0 gap-y-3'>
@@ -145,7 +198,7 @@ const ViewMyJobDetails = () => {
 
                 <h1 className='mt-4 text-[17px] font-bold text-black text-start'>Job Responsibilities</h1>
                 {
-                    responsibility.map((line, index) =>
+                    Object.values(responsibility).map((line, index) =>
                         <ul key={index}>
                             <li className=' mt-2 text-gray-700 text-justify '>⦿ {line}</li>
                         </ul>
@@ -163,33 +216,38 @@ const ViewMyJobDetails = () => {
 
                 <h1 className='mt-4 text-[17px] font-bold text-black text-start'>Additional Requirements</h1>
                 {
-                    Addition.map((line, index) =>
+                    Object.values(Addition).map((line, index) =>
                         <ul key={index}>
                             <li className=' mt-2 text-gray-700 text-justify '>⦿ {line}</li>
                         </ul>
                     )
                 }
 
+
                 <h1 className='mt-4 text-[17px] font-bold text-black text-start'>Job Location</h1>
                 <p className=' text-md text-gray-700  text-justify'> {location}</p>
+
+
+                <h1 className='mt-4 text-[18px] font-bold text-green-700 text-start'>*** Freshers are encouraged to apply</h1>
+
 
 
 
                 <div className='mt-6 mb-3 '>
                     <Stack direction={{ xs: 'row', sm: 'row', md: 'row' }} spacing={2}>
 
-                        <Link to={`/myJobs/${userEmail}`}>
+                        <Link to='/myJobs'>
                             <button>
-                                <div className='px-10 py-2 bg-blue-800 hover:bg-blue-700 text-white rounded-sm flex justify-center items-center gap-x-2'>
+                                <div className='md:px-10 px-6 py-2 bg-blue-800 hover:bg-blue-700 text-white rounded-sm flex justify-center items-center gap-x-2'>
                                     <p className='text-md font-semibold'>Back</p>
                                 </div>
                             </button>
                         </Link>
 
 
-                        <Link>
+                        <Link to={`/editJob/${_id}`}>
                             <button>
-                                <div className='px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-sm flex justify-center items-center gap-x-2'>
+                                <div className='md:px-6 px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-sm flex justify-center items-center gap-x-2'>
                                     <FiEdit></FiEdit>
                                     <p className='text-md font-semibold'>Edit</p>
                                 </div>

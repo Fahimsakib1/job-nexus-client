@@ -52,7 +52,7 @@ const AddJob = () => {
             companyName: data.companyName,
             jobResponsibilities: data.jobResponsibility,
             jobContext: data.jobContext,
-            additionalRequirements: data.additionalRequirements,
+            jobRequirements: data.jobRequirements,
             vacancy: data.vacancy,
             experience: data.experience,
             education: data.education,
@@ -77,7 +77,7 @@ const AddJob = () => {
             reset();
         }
         if (!isLoading && isError) {
-            toast.error(error, { id: "AddJob" })
+            toast.error("Can not Post Job... Something Went wrong", { id: "AddJob" })
         }
     }, [isLoading, isSuccess, isError, error, reset]);
 
@@ -132,7 +132,7 @@ const AddJob = () => {
 
 
                                 <div className="mt-2 lg:px-4 md:px-10 px-4 form-control w-full mb-1">
-                                    <h1 className='text-start font-semibold mb-3'>Job Responsibilities</h1>
+                                    <h1 className='text-start font-semibold mb-1'>Job Responsibilities <span className='text-red-600 font-bold'>*</span></h1>
                                     <textarea type="text" placeholder="Write Job Responsibility" className="textarea textarea-bordered textarea-md  text-gray-900 font-semibold w-full px-3 border-2 border-gray-500 py-2" {...register("jobResponsibility", { required: "Job Responsibility Required" })} ></textarea>
                                     {errors.jobResponsibility && <p className='text-start text-red-600'>{errors.jobResponsibility?.message}</p>}
                                 </div>
@@ -140,25 +140,26 @@ const AddJob = () => {
 
 
 
-
                                 <div className='ml-1 mt-2 lg:px-4 md:px-10 px-4 flex justify-start items-center md:flex-row flex-col md:gap-x-6 md:gap-y-0 gap-y-2'>
+
+                                    <div className="  w-full mb-1">
+                                        <h1 className='text-start font-semibold mb-1'>Requirements <span className='text-red-600 font-bold'>*</span></h1>
+                                        <textarea type="text" placeholder="Write Job Requirements" className="textarea textarea-bordered textarea-md  text-gray-900 font-semibold w-full px-3 border-2 border-gray-500 py-2" {...register("jobRequirements", { required: "Job Requirements Needed" })} ></textarea>
+                                        {errors.jobRequirements && <p className='text-start text-red-600'>{errors.jobRequirements?.message}</p>}
+                                    </div>
+
                                     <div className="w-full mb-1">
-                                        <h1 className='text-start font-semibold mb-3'>Job Context</h1>
+                                        <h1 className='text-start font-semibold mb-1'>Job Context</h1>
                                         <textarea type="text" placeholder="Write Job Context" className="textarea textarea-bordered textarea-md  text-gray-900 font-semibold w-full px-3 border-2 border-gray-500 py-2" {...register("jobContext")} ></textarea>
                                     </div>
 
-
-                                    <div className="  w-full mb-1">
-                                        <h1 className='text-start font-semibold mb-3'>Additional Requirements</h1>
-                                        <textarea type="text" placeholder="Write Additional Requirements" className="textarea textarea-bordered textarea-md  text-gray-900 font-semibold w-full px-3 border-2 border-gray-500 py-2" {...register("additionalRequirements")} ></textarea>
-                                    </div>
                                 </div>
 
 
-                                <div className='mt-2 lg:px-4 md:px-10 px-4 flex justify-start items-center md:flex-row flex-col md:gap-x-6 md:gap-y-0 gap-y-2'>
+                                <div className=' lg:px-4 md:px-10 px-4 flex justify-start items-center md:flex-row flex-col md:gap-x-6 md:gap-y-0 gap-y-2'>
 
                                     <div className=" ml-1 w-full">
-                                        <h1 className='text-start font-semibold mb-3'>Vacancy</h1>
+                                        <h1 className='text-start font-semibold mb-1'>Vacancy <span className='text-red-600 font-bold'>*</span></h1>
                                         <input type="number" min="1" max="100"  {...register("vacancy", { required: "Vacancy Required" })}
                                             placeholder="Enter Vacancy" className="text-gray-700 font-semibold input input-bordered w-full px-3 border-2 border-gray-500 py-2" />
                                         {errors.vacancy && <p className='mt-1 px-4 text-start text-red-600'>{errors.vacancy?.message}</p>}
@@ -166,7 +167,7 @@ const AddJob = () => {
 
 
                                     <div className=" w-full">
-                                        <h1 className='text-start mb-3 font-semibold'>Experience</h1>
+                                        <h1 className='text-start mb-1 font-semibold'>Experience  <span className='text-red-600 font-bold'>*</span></h1>
                                         <input type="number" min="0" max="10" {...register("experience", { required: "Job Experience Required" })}
                                             placeholder="Enter Year of Experience" className="text-gray-700 font-semibold input input-bordered w-full px-3 border-2 border-gray-500 py-2" />
                                         {errors.experience && <p className='mt-1 px-4 text-start text-red-600'>{errors.experience?.message}</p>}
@@ -174,11 +175,11 @@ const AddJob = () => {
 
 
                                     <div className=' flex flex-col w-full '>
-                                        <h1 className='text-start font-semibold mb-3'>Education</h1>
+                                        <h1 className='text-start font-semibold mb-1'>Education <span className='text-red-600 font-bold'>*</span></h1>
                                         <select className='w-full px-3 border-2 border-gray-500 py-2' name='education'
                                             {...register("education", { required: "Education Required" })}>
-                                            <option className=''>Bachelor in Any Discipline</option>
                                             <option className=''>Bachelor of Computer Science And Engineering</option>
+                                            <option className=''>Bachelor in Any Discipline</option>
                                             <option className=''>Bachelor of Civil Engineering</option>
                                             <option className=''>Bachelor of Electrical Engineering</option>
                                             <option className=''>Bachelor of Computer Networking</option>
@@ -187,7 +188,7 @@ const AddJob = () => {
                                             <option className=''>Bachelor of Business Administration</option>
                                             <option className=''>Masters of  Any Discipline</option>
                                             <option className=''>Masters of Computer Science And Engineering</option>
-                                            <option className=''>Masters of Civil ENgineering</option>
+                                            <option className=''>Masters of Civil Engineering</option>
                                             <option className=''>Masters of Electrical Engineering</option>
                                             <option className=''>Masters of Computer Networking</option>
                                             <option className=''>Masters of Mechanical Engineering</option>
@@ -205,7 +206,7 @@ const AddJob = () => {
                                 <div className='mt-3 lg:px-4 md:px-10 px-4 flex justify-start items-center md:flex-row flex-col md:gap-x-6 md:gap-y-0 gap-y-2'>
 
                                     <div className='ml-1 flex flex-col w-full '>
-                                        <h1 className='text-start font-semibold mb-3'>Job Location</h1>
+                                        <h1 className='text-start font-semibold mb-1'>Job Location <span className='text-red-600 font-bold'>*</span></h1>
                                         <select className='w-full px-3 border-2 border-gray-500 py-2' name='vacancy' id='vacancy'  {...register("location", { required: "Job Location Required" })}>
                                             <option className=''>Dhaka</option>
                                             <option className=''>Chittagong</option>
@@ -223,16 +224,17 @@ const AddJob = () => {
                                     </div>
 
                                     <div className='ml-1 flex flex-col w-full '>
-                                        <h1 className='text-start font-semibold mb-3'>Job Type</h1>
+                                        <h1 className='text-start font-semibold mb-1'>Job Type <span className='text-red-600 font-bold'>*</span></h1>
                                         <select className='w-full px-3 border-2 border-gray-500 py-2' name='jobType'  {...register("jobType", { required: "Job Type Required" })}>
-                                            <option className=''>Work From Home</option>
                                             <option className=''>Work At Office</option>
+                                            <option className=''>Work From Home</option>
+                                            <option className=''>Hybrid</option>
                                         </select>
                                         {errors.jobType && <p className='mt-1 px-4 text-start text-red-600'>{errors.jobType?.message}</p>}
                                     </div>
 
                                     <div className=" ml-1 w-full">
-                                        <h1 className='text-start font-semibold mb-3'>Salary</h1>
+                                        <h1 className='text-start font-semibold mb-1'>Salary</h1>
                                         <input type="text" {...register("salary")}
                                             placeholder="Enter Salary" className="text-gray-800 font-semibold input input-bordered w-full px-3 border-2 border-gray-500 py-2" />
                                         {errors.salary && <p className='mt-1 px-4 text-start text-red-600'>{errors.salary?.message}</p>}
@@ -246,7 +248,7 @@ const AddJob = () => {
                                 }
 
 
-                                <div className='mt-8 mb-4'>
+                                <div className='mt-12 mb-4'>
                                     <Button
                                         sx={{
                                             width: { xs: 300, sm: 420, md: 500, lg: 540 },

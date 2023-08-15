@@ -10,6 +10,8 @@ import Try from "../../Try";
 import ViewJobDetails from "../../Components/Pages/ViewJobs/ViewJobDetails";
 import MyPostedJobs from "../../Components/Pages/ViewJobs/MyPostedJobs";
 import ViewMyJobDetails from "../../Components/Pages/ViewJobs/ViewMyJobDetails";
+import EditJob from "../../Components/Pages/EditJob/EditJob";
+import ErrorPage from "../../Components/Pages/ErrorPage/ErrorPage";
 
 
 
@@ -50,18 +52,27 @@ const Routes = createBrowserRouter([
                 loader: ({ params }) => fetch(`http://localhost:5000/allJobs/${params.id}`)
             },
             {
-                path: "/myJobs/:email",
+                path: "/myJobs",
                 element: <PrivateRoute><MyPostedJobs></MyPostedJobs></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/jobsByEmail/${params.email}`)
             },
             {
                 path: '/viewMyJob/:id',
                 element: <PrivateRoute><ViewMyJobDetails></ViewMyJobDetails></PrivateRoute>,
                 loader: ({ params }) => fetch(`http://localhost:5000/allJobs/${params.id}`)
             },
+            {
+                path: '/editJob/:id',
+                element: <PrivateRoute><EditJob></EditJob></PrivateRoute>,
+                loader: ({ params }) => fetch(`http://localhost:5000/allJobs/${params.id}`)
+            },
 
         ],
     },
+
+    {
+        path: '*',
+        element: <ErrorPage></ErrorPage>
+    }
 ]);
 
 export default Routes;

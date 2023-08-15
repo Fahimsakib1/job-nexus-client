@@ -17,6 +17,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Spinner from '../../LoadingSpinners/Spinner';
 import Spinner2 from '../../LoadingSpinners/Spinner2';
+import useToken from '../../../Hooks/useToken';
 
 
 
@@ -40,6 +41,16 @@ const Signup = () => {
 
 
 
+    //For Token
+    const [createdUserEmail, setCreatedUserEmail] = useState('');
+    const [token] = useToken(createdUserEmail);
+    if (token) {
+        navigate('/');
+        console.log("Token from Sign Up page: ", token)
+    }
+
+
+
 
 
 
@@ -55,9 +66,7 @@ const Signup = () => {
             })
         }
 
-
         else {
-
             setSignUpLoader(true);
             const image = data.photo[0];
             const formData = new FormData();
@@ -79,7 +88,7 @@ const Signup = () => {
                                 }
                                 updateUser(userInfo)
                                     .then(() => {
-                                        addUserToDataBase(data.name, data.email, imageData.data.url)
+                                        addUserToDataBase(data.name, data.email, imageData.data.url, 'NormalSignUp' )
                                         toast.success("User Created Successfully")
                                         reset();
                                         setSignUpLoader(false);
@@ -90,7 +99,6 @@ const Signup = () => {
                                         setError(error.message);
                                         setSignUpLoader(false);
                                     })
-
                             })
 
                             .catch(error => {
@@ -118,7 +126,7 @@ const Signup = () => {
             .then(result => {
                 const user = result.user;
                 toast.success("Successfully Sign In By Google");
-                addUserToDataBase(user.displayName, user.email, user?.photoURL);
+                addUserToDataBase(user.displayName, user.email, user?.photoURL, 'GoogleSignUp');
                 setGoogleSignUpLoader(false);
                 navigate('/')
             })
@@ -132,8 +140,8 @@ const Signup = () => {
 
 
 
-    const addUserToDataBase = (name, email, photo) => {
-        const user = { name: name, email: email, photoURL: photo };
+    const addUserToDataBase = (name, email, photo, signUpType) => {
+        const user = { name: name, email: email, photoURL: photo, signUpType: signUpType };
 
         fetch('http://localhost:5000/addUser', {
             method: 'POST',
@@ -146,7 +154,7 @@ const Signup = () => {
             .then(data => {
                 if (data.acknowledged) {
                     console.log(data);
-                    //getUserToken(email)
+                    setCreatedUserEmail(email)
                 }
                 else {
                     Swal.fire({

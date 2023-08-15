@@ -79,7 +79,7 @@ const Header = () => {
                                 noWrap
                                 component="a"
                                 sx={{
-                                    mr: 40,
+                                    mr: 25,
                                     display: { xs: 'none', md: 'flex' },
                                     fontFamily: 'monospace',
                                     fontWeight: 700,
@@ -133,9 +133,10 @@ const Header = () => {
                                     </Link>
 
 
-                                    <Link to={`/myJobs/${user?.email}`}>
+                                    <Link to='/myJobs'>
                                         <h1 className='mb-3 text-[15px] sm:text-[17px] md:text-lg sm:px-6 px-6 md:px-10 py-1'>My Jobs</h1>
                                     </Link>
+
 
                                     <Link to='/viewAllJobs'>
                                         <h1 className='mb-3 text-[15px] sm:text-[17px] md:text-lg sm:px-6 px-6 md:px-10 py-1'>View All Jobs</h1>
@@ -195,9 +196,16 @@ const Header = () => {
                                     <h1 className='  hover:text-sky-400 px-2 text-[19px] cursor-pointer'>Add Job</h1>
                                 </NavLink>
 
-                                <NavLink to={`/myJobs/${user?.email}`}>
+                                {/* <NavLink to={`/myJobs/${user?.email}`}>
+                                    <h1 className=' hover:text-sky-400 px-2 text-[19px] cursor-pointer'>My Jobs</h1>
+                                </NavLink> */}
+
+
+
+                                <NavLink to='/myJobs'>
                                     <h1 className=' hover:text-sky-400 px-2 text-[19px] cursor-pointer'>My Jobs</h1>
                                 </NavLink>
+
 
                                 <NavLink to='/viewAllJobs'>
                                     <h1 className=' hover:text-sky-400 px-2 text-[19px] cursor-pointer'>View All Jobs</h1>

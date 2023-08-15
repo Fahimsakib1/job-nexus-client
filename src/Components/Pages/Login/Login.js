@@ -35,8 +35,39 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
+    console.log("From", from);
     useTitle('Login');
     const [LoginLoader, setLoginLoader] = useState(false);
+
+
+
+
+
+
+    // const handleLogin = (data) => {
+    //     setLoginError('');
+    //     setLoginLoader(true);
+    //     userLogin(data.email, data.Password)
+    //         .then(result => {
+    //             const user = result.user;
+    //             console.log("User From Login Page: ", user);
+    //             setLoginLoader(false);
+    //             reset();
+    //             navigate(from, { replace: true });
+    //         })
+    //         .catch(error => {
+    //             Swal.fire({
+    //                 icon: 'error',
+    //                 title: 'Oops...',
+    //                 text: 'Login Failed',
+    //             })
+    //             setLoginError(error.message);
+    //             setLoginLoader(false);
+    //         })
+    // }
+
+
+
 
 
 
@@ -49,18 +80,42 @@ const Login = () => {
         userLogin(data.email, data.Password)
             .then(result => {
                 const user = result.user;
-                console.log("User From Login Page: ", user);
-                setLoginLoader(false);
+
+                const currentUser = {
+                    email: user?.email
+                }
+
+                //get jwt token in client side
+                fetch('http://localhost:5000/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log("Token received from Server", data.token)
+                    
+                    //set the JWT token in local storage
+                    localStorage.setItem('JobNexusToken', data.token);
+                    setLoginLoader(false);
+                    navigate(from, { replace: true });
+                })
+
+                // setLoginLoader(false);
+                // reset();
+                // navigate(from, { replace: true });
+
                 reset();
-                navigate(from, { replace: true });
             })
             .catch(error => {
+                setLoginError(error.message);
                 Swal.fire({
                     icon: 'error',
-                    title: 'Oops...',
-                    text: 'Login Failed',
+                    title: 'No user found with this email.. Please Sign up then Login',
+                    text: `${LoginError}`
                 })
-                setLoginError(error.message);
                 setLoginLoader(false);
             })
     }

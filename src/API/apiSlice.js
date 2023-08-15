@@ -13,7 +13,7 @@ export const jobsAPI = createApi({
         {
             getAllJobs: builder.query({
                 query: () => ({
-                    url: '/allJobs'
+                    url: '/allJobs',
                 }),
                 providesTags: ['Jobs'],
             }),
@@ -25,6 +25,7 @@ export const jobsAPI = createApi({
                     body: data,
                     headers: {
                         'Content-type': 'application/json',
+                        authorization: `bearer ${localStorage.getItem('JobNexusToken')}`
                     },
                 }),
                 invalidatesTags: ['Jobs']
@@ -38,10 +39,23 @@ export const jobsAPI = createApi({
                 }),
                 invalidatesTags: ['MyJobs']
             }),
+
+            updateJob: builder.mutation({
+                query: (job) => ({
+                    url: `/updateJob/${job.id}`,
+                    method: 'PUT',
+                    body: job,
+                    headers: {
+                        'Content-type': 'application/json',
+                        authorization: `bearer ${localStorage.getItem('JobNexusToken')}`
+                    },
+                }),
+                invalidatesTags: ['Jobs']
+            }),
             
         }
     )
 })
 
 
-export const { useGetAllJobsQuery, useAddJobMutation, useDeleteJobMutation} = jobsAPI;
+export const { useGetAllJobsQuery, useAddJobMutation, useDeleteJobMutation, useUpdateJobMutation} = jobsAPI;

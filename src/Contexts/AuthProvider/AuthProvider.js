@@ -32,7 +32,7 @@ const AuthProvider = ({ children }) => {
 
     const signOutUser = () => {
         setLoading(true);
-        // localStorage.removeItem('JobPortalToken');
+        localStorage.removeItem('JobNexusToken');
         return signOut(auth);
     }
 

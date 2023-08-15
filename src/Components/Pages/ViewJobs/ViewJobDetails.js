@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import useTitle from '../../../Hooks/useTitle';
@@ -13,13 +13,13 @@ const ViewJobDetails = () => {
     const job = useLoaderData();
     const navigate = useNavigate();
 
-    const { _id, jobTitle, userName, userEmail, location, education, companyName, salary, jobResponsibilities, jobPostedTime, jobContext, additionalRequirements, vacancy, userPhoto, jobType, experience } = job
+    const { _id, jobTitle, userName, userEmail, location, education, companyName, salary, jobResponsibilities, jobPostedTime, jobContext, jobRequirements, vacancy, userPhoto, jobType, experience } = job
 
     const AllResponsibility = jobResponsibilities.split('.')
     const responsibility = AllResponsibility.slice(0, AllResponsibility.length - 1)
 
 
-    const Additional = additionalRequirements.split('.')
+    const Additional = jobRequirements.split('.')
     const Addition = Additional.slice(0, Additional.length - 1)
 
 
@@ -40,7 +40,7 @@ const ViewJobDetails = () => {
     useTitle(`${jobTitle}`);
 
 
-    
+
 
 
     return (
@@ -51,7 +51,12 @@ const ViewJobDetails = () => {
 
                 <div className='flex md:flex-row flex-col justify-between '>
                     <h1 className=' text-green-600 text-lg font-bold text-start'>Company: {companyName}</h1>
-                    <p className=' -mt-[2px] text-sm font-semibold text-gray-600 text-start'>Posted Date: {jobPostedTime}</p>
+                    <div>
+                        <p className=' -mt-[2px] text-sm font-semibold text-gray-600 text-start'>Posted Date: {jobPostedTime}</p>
+                        {
+                            job.jobEditedTime && <p className='  text-[13px] font-bold text-red-600 md:text-end text-start'>Edited On: {job.jobEditedTime}</p>
+                        }
+                    </div>
                 </div>
 
                 <div className='flex justify-between  md:flex-row flex-col md:gap-x-2 md:gap-y-0 gap-y-3'>
@@ -79,7 +84,7 @@ const ViewJobDetails = () => {
 
                 <h1 className='mt-4 text-[17px] font-bold text-black text-start'>Job Responsibilities</h1>
                 {
-                    responsibility.map((line, index) =>
+                    Object.values(responsibility).map((line, index) =>
                         <ul key={index}>
                             <li className=' mt-2 text-gray-700 text-justify '>⦿ {line}</li>
                         </ul>
@@ -97,7 +102,7 @@ const ViewJobDetails = () => {
 
                 <h1 className='mt-4 text-[17px] font-bold text-black text-start'>Additional Requirements</h1>
                 {
-                    Addition.map((line, index) =>
+                    Object.values(Addition).map((line, index) =>
                         <ul key={index}>
                             <li className=' mt-2 text-gray-700 text-justify '>⦿ {line}</li>
                         </ul>
@@ -106,6 +111,9 @@ const ViewJobDetails = () => {
 
                 <h1 className='mt-4 text-[17px] font-bold text-black text-start'>Job Location</h1>
                 <p className=' text-md text-gray-700  text-justify'> {location}</p>
+
+
+                <h1 className='mt-4 text-[18px] font-bold text-green-700 text-start'>*** Freshers are encouraged to apply</h1>
 
 
 
