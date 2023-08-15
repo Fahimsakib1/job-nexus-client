@@ -143,7 +143,7 @@ const Signup = () => {
     const addUserToDataBase = (name, email, photo, signUpType) => {
         const user = { name: name, email: email, photoURL: photo, signUpType: signUpType };
 
-        fetch('http://localhost:5000/addUser', {
+        fetch('https://job-nexus-server.vercel.app/addUser', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -155,6 +155,43 @@ const Signup = () => {
                 if (data.acknowledged) {
                     console.log(data);
                     setCreatedUserEmail(email)
+
+
+
+
+
+                    const currentUser = {
+                        email: email
+                    }
+                    //get jwt token in client side
+                    fetch('https://job-nexus-server.vercel.app/jwt', {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(currentUser)
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log("Token received Sign Up Page", data.token);
+                        // toast.success("Token Added From Sign Up Page")
+                        //set the JWT token in local storage
+                        localStorage.setItem('JobNexusToken', data.token);
+                    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 }
                 else {
                     Swal.fire({

@@ -86,7 +86,7 @@ const Login = () => {
                 }
 
                 //get jwt token in client side
-                fetch('http://localhost:5000/jwt', {
+                fetch('https://job-nexus-server.vercel.app/jwt', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'

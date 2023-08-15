@@ -117,7 +117,7 @@ const ViewMyJobDetails = () => {
 
         console.log("ID", id);
 
-        fetch(`http://localhost:5000/job/${id}`, {
+        fetch(`https://job-nexus-server.vercel.app/job/${id}`, {
             method: 'DELETE',
             headers: {
                 authorization: `bearer ${localStorage.getItem('JobNexusToken')}`

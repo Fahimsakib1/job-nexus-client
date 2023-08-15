@@ -7,7 +7,7 @@ const useToken = (email) => {
     useEffect(() => {
         if (email) {
             console.log("Email From useToken", email)
-            fetch(`http://localhost:5000/jwt?email=${email}`)
+            fetch(`https://job-nexus-server.vercel.app/jwt?email=${email}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.accessToken) {

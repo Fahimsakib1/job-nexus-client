@@ -29,7 +29,7 @@ const MyPostedJobs = () => {
     const { data: myPostedJobs = [], refetch, isLoading } = useQuery({
         queryKey: ['myPostedJobs', user?.email],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/jobsByEmail/${user?.email}`);
+            const res = await fetch(`https://job-nexus-server.vercel.app/jobsByEmail/${user?.email}`);
             const data = await res.json();
             return data;
         }
@@ -82,7 +82,7 @@ const MyPostedJobs = () => {
 
         console.log("ID", id);
 
-        fetch(`http://localhost:5000/job/${id}`, {
+        fetch(`https://job-nexus-server.vercel.app/job/${id}`, {
             method: 'DELETE',
             headers: {
                 authorization: `bearer ${localStorage.getItem('JobNexusToken')}`

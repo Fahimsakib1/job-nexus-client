@@ -32,7 +32,7 @@ const Home = () => {
                                     <h1 className='cursor-pointer py-3 px-8 rounded-sm bg-gray-300 hover:bg-gray-800 text-gray-600 hover:text-white font-semibold border-2 border-gray-400 hover:border-gray-700 text-lg'>Create Job Post</h1>
                                 </Link>  
 
-                                <Link to={`/myJobs/${user?.email}`}>
+                                <Link to='/myJobs'>
                                     <h1 className='cursor-pointer py-3 px-8 rounded-sm bg-gray-300 hover:bg-gray-800 text-gray-600 hover:text-white font-semibold border-2 border-gray-400 hover:border-gray-700 text-lg'>View My Posted Jobs</h1>
                                 </Link>
 

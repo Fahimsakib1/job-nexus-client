@@ -7,6 +7,7 @@ import useTitle from '../../../Hooks/useTitle';
 import { Button, TextField, TextareaAutosize } from '@mui/material';
 import { useAddJobMutation } from '../../../API/apiSlice';
 import { RotatingLines } from 'react-loader-spinner';
+import Swal from 'sweetalert2';
 
 
 
@@ -18,7 +19,7 @@ const AddJob = () => {
 
 
     const { user } = useContext(AuthContext)
-    const [error, setError] = useState('');
+    const [postError, setPostError] = useState('');
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const navigate = useNavigate();
     useTitle('Add Jobs');
@@ -38,7 +39,7 @@ const AddJob = () => {
 
 
 
-    const [addJob, { isLoading, isError, isSuccess }] = useAddJobMutation()
+    const [addJob, { isLoading, isError, isSuccess, error }] = useAddJobMutation()
 
 
 
@@ -46,7 +47,7 @@ const AddJob = () => {
 
 
     const handleAddJob = (data) => {
-        setError('');
+        setPostError('');
         const jobDetails = {
             jobTitle: data.title,
             companyName: data.companyName,
@@ -77,7 +78,12 @@ const AddJob = () => {
             reset();
         }
         if (!isLoading && isError) {
-            toast.error("Can not Post Job... Something Went wrong", { id: "AddJob" })
+            toast.error("Can not Post Job... Something Went wrong", { id: "AddJob" });
+            Swal.fire({
+                icon: 'error',
+                title: 'Wrong..',
+                text: `${error.message}`
+            })
         }
     }, [isLoading, isSuccess, isError, error, reset]);
 
@@ -244,7 +250,7 @@ const AddJob = () => {
 
 
                                 {
-                                    error && <p className='text-red-600'>{error}</p>
+                                    postError && <p className='text-red-600'>{postError}</p>
                                 }
 
 

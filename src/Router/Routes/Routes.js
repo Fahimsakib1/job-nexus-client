@@ -49,7 +49,7 @@ const Routes = createBrowserRouter([
             {
                 path: '/viewJob/:id',
                 element: <PrivateRoute><ViewJobDetails></ViewJobDetails></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/allJobs/${params.id}`)
+                loader: ({ params }) => fetch(`https://job-nexus-server.vercel.app/allJobs/${params.id}`)
             },
             {
                 path: "/myJobs",
@@ -58,12 +58,12 @@ const Routes = createBrowserRouter([
             {
                 path: '/viewMyJob/:id',
                 element: <PrivateRoute><ViewMyJobDetails></ViewMyJobDetails></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/allJobs/${params.id}`)
+                loader: ({ params }) => fetch(`https://job-nexus-server.vercel.app/allJobs/${params.id}`)
             },
             {
                 path: '/editJob/:id',
                 element: <PrivateRoute><EditJob></EditJob></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/allJobs/${params.id}`)
+                loader: ({ params }) => fetch(`https://job-nexus-server.vercel.app/allJobs/${params.id}`)
             },
 
         ],

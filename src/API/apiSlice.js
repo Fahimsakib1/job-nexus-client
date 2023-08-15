@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-
+// https://job-nexus-server.vercel.app
 
 export const jobsAPI = createApi({
     reducerPath: 'getJobs',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5000',
+        baseUrl: 'https://job-nexus-server.vercel.app',
     }),
     tagTypes: ['Jobs'],
 
@@ -13,7 +13,10 @@ export const jobsAPI = createApi({
         {
             getAllJobs: builder.query({
                 query: () => ({
-                    url: '/allJobs',
+                    url: '/allJobs', 
+                    headers: {
+                        authorization: `bearer ${localStorage.getItem('JobNexusToken')}`
+                    },
                 }),
                 providesTags: ['Jobs'],
             }),
